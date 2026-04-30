@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz mes Mi Raven</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    text-align: center;
+    color: #333;
+    overflow: hidden;
+}
+
+.container {
+    padding: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    color: white;
+    font-size: 3em;
+}
+
+#mensaje {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 600px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 15px;
+    font-size: 1.3em;
+    min-height: 100px;
+    transition: all 0.5s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.oculto {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.carta-final {
+    animation: aparecer 1s ease forwards;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 10px;
+    background: #ff6f91;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+button:hover {
+    background: #ff3e6c;
+    transform: scale(1.05);
+}
+
+/* Fondo corazones */
+.corazones {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.corazon {
+    position: absolute;
+    bottom: -20px;
+    font-size: 20px;
+    animation: flotar linear infinite;
+    color: #FFD700;
+    opacity: 0.8;
+}
+
+@keyframes flotar {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Explosión */
+@keyframes explosion {
+    0% {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(1.8);
+        opacity: 0;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<div class="corazones"></div>
+
+<div class="container">
+    <h1>Feliz mes Mi Raven 💛</h1>
+
+    <div id="mensaje">
+        Bienvenida a mi proyecto. Si preguntas, si me ayudo la IA XD Pero aprendi cositas. Como que puedo hacer paguinas privadas para subir los regalos que te haga jeje. En fin. Sigue las instrucciones solo si estas interesada en saber que sigue. Con amor *TU ESPOSO*
+    </div>
+
+    <button onclick="siguienteMensaje()">Si me amas un poquito presiona aquí 💌</button>
+</div>
+
+<script>
+
+let mensajes = [
+    "Te amo Mi cielo. El amor era algo tan dificil e insierto hasta que te conoci. El regalo mas hermoso que me ha dado la vida eres tu. Espero que no estes pensando que esto es muy cursi porque es solo un pequeño detalle con los muchos mas que vienen en el futuro.",
+    "Te adoro Mi tesoro. La definicion mas loca de esa palabra seria como *Venerar y reverenciar de forma extrema a una figura divina* Es decir que frente a mis ojos eres una diosa hermosa y maravillosa.",
+    "Me encantas Mi Reina. Creo que la palabra hechizo es algo muy exacto cuando quiero hablar de lo hipnotizante que es ver tus ojos y senti tanta alegria de estae vivo. En serio me encantas.",
+    "Me fascinas Mi Esposa. De una manera tan alocada siento esra atraccion hacia ti. No existe parte de tu cuerpo que no pueda sentir ganas de besar alocada, indiscreta, frenetica y apasionadamente. Eres perfecta mi vida.",
+    "Eres lo mejor que me ha pasado. No tengo nada mas que decir en esta parte. Asi mismo como suena y asi mismo como siempre te lo he dicho. ERES LO MEJOR QUE ME HA PASADO",
+    "¿Te casarias conmigo Yes?"
+];
+
+let textosBoton = [
+    "Sigue leyendo si me amas un trisito 😉",
+    "Toma una pausa para reir o enviarme un beso y presiona aqui 😘",
+    "Si me amas un poquito mas... No pares ahora 💛",
+    "¿Cansada? Ya casi acabamos. El siguiente es el ultimo mensaje 😏",
+    "Menti. Perdon soy hombre. Pero si quieres saber mas presiona aqui 🙈 ",
+    "Se que tu me amas mucho y te doy permiso a presionar aqui si ya sabes con quien te vas a casar 💍"
+];
+
+let carta = `
+Amor mio, Reina de mi corazon, Diosa de mis ojos, Mi teosoro precioso.
+
+Quiero que sepas lo importante que eres para mí.
+Cada día a tu lado es un regalo que valoro muchísimo.
+
+Gracias por tu amor, tu paciencia y tu forma de hacerme feliz.
+No cambiaría nada de lo que hemos vivido juntos.
+
+Feliz mes 💛
+Te amo muchísimo.
+`;
+
+let index = 0;
+
+function siguienteMensaje() {
+    let mensajeDiv = document.getElementById("mensaje");
+    let boton = document.querySelector("button");
+
+    mensajeDiv.classList.add("oculto");
+
+    setTimeout(() => {
+        if (index < mensajes.length) {
+            mensajeDiv.innerHTML = mensajes[index];
+            boton.innerHTML = textosBoton[index] || "Seguir 💌";
+            index++;
+        } else {
+            mensajeDiv.innerHTML = carta;
+            mensajeDiv.classList.add("carta-final");
+            boton.style.display = "none";
+
+            explosionCorazones(); // 💥 aquí ocurre la magia
+        }
+
+        mensajeDiv.classList.remove("oculto");
+
+    }, 500);
+}
+
+// Corazones flotantes normales
+function crearCorazon() {
+    const corazon = document.createElement("div");
+    corazon.classList.add("corazon");
+    corazon.innerHTML = "💛";
+
+    corazon.style.left = Math.random() * 100 + "vw";
+    corazon.style.fontSize = (15 + Math.random() * 20) + "px";
+    corazon.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+    document.querySelector(".corazones").appendChild(corazon);
+
+    setTimeout(() => corazon.remove(), 8000);
+}
+
+setInterval(crearCorazon, 500);
+
+// 💥 EXPLOSIÓN FINAL
+function explosionCorazones() {
+    for (let i = 0; i < 40; i++) {
+        const corazon = document.createElement("div");
+        corazon.innerHTML = "💛";
+        corazon.style.position = "fixed";
+        corazon.style.left = "50%";
+        corazon.style.top = "50%";
+        corazon.style.fontSize = (20 + Math.random() * 30) + "px";
+
+        // Direcciones aleatorias
+        let x = (Math.random() - 0.5) * 600 + "px";
+        let y = (Math.random() - 0.5) * 600 + "px";
+
+        corazon.style.setProperty("--x", x);
+        corazon.style.setProperty("--y", y);
+
+        corazon.style.animation = "explosion 1.5s ease-out forwards";
+
+        document.body.appendChild(corazon);
+
+        setTimeout(() => corazon.remove(), 1500);
+    }
+}
+
+</script>
+
+</body>
+</html>
